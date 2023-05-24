@@ -13,7 +13,23 @@ export const getAllMovies = () => {
     })
 
     .catch((error) => {
-      console.error("Error fetching movies:", error);
+      console.log("Error fetching movies:", error);
+      return error;
+    });
+};
+
+export const getMovieSessions = (id) => {
+  return axios
+    .get(`${BASE_URL}/movies/${id}/showtimes`)
+
+    .then((response) => {
+      const apiMovieSessions = response.data.days;
+      const movie = response.data;
+      return [apiMovieSessions, movie];
+    })
+
+    .catch((error) => {
+      console.log("Error fetching movies:", error);
       return error;
     });
 };

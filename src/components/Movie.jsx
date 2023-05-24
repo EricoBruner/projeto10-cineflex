@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Movie({ id, overview, posterURL }) {
   return (
     <MovieContainer key={id}>
-      <img src={posterURL} alt={overview} />
+      <Link to={`/sessoes/${id}`}>
+        <img src={posterURL} alt={overview} />
+      </Link>
     </MovieContainer>
   );
 }
