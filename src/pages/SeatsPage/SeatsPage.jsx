@@ -1,27 +1,44 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { getMovieSessionSeats } from "../../services/api";
+
 export default function SeatsPage() {
+  const { idSessao } = useParams();
+  let [seats, setSeats] = useState([]);
+  let [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
+      setSeats(apiMovieSessionSeats);
+      setMovie(apiMovie);
+      console.log(apiMovieSessionSeats);
+      console.log(apiMovie);
+    });
+  }, []);
+
   return (
     <PageContainer>
       Selecione o(s) assento(s)
       <SeatsContainer>
-        <SeatItem>01</SeatItem>
-        <SeatItem>02</SeatItem>
-        <SeatItem>03</SeatItem>
-        <SeatItem>04</SeatItem>
-        <SeatItem>05</SeatItem>
+        {seats.map((seat) => (
+          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>
+            {seat.name}
+          </SeatItem>
+        ))}
       </SeatsContainer>
       <CaptionContainer>
         <CaptionItem>
-          <CaptionCircle />
+          <CaptionCircle state={"Selecionado"} />
           Selecionado
         </CaptionItem>
         <CaptionItem>
-          <CaptionCircle />
+          <CaptionCircle state={"Disponível"} />
           Disponível
         </CaptionItem>
         <CaptionItem>
-          <CaptionCircle />
+          <CaptionCircle state={"Indisponível"} />
           Indisponível
         </CaptionItem>
       </CaptionContainer>
@@ -33,18 +50,19 @@ export default function SeatsPage() {
         <button>Reservar Assento(s)</button>
       </FormContainer>
       <FooterContainer>
-        <div>
-          <img
-            src={
-              "https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"
-            }
-            alt="poster"
-          />
-        </div>
-        <div>
-          <p>Tudo em todo lugar ao mesmo tempo</p>
-          <p>Sexta - 14h00</p>
-        </div>
+        {movie && (
+          <>
+            <div>
+              <img src={movie.movie.posterURL} alt="poster" />
+            </div>
+            <div>
+              <p>{movie.movie.overview}</p>
+              <p>
+                {movie.day.weekday} - {movie.name}
+              </p>
+            </div>
+          </>
+        )}
       </FooterContainer>
     </PageContainer>
   );
@@ -93,8 +111,28 @@ const CaptionContainer = styled.div`
   margin: 20px;
 `;
 const CaptionCircle = styled.div`
-  border: 1px solid blue; // Essa cor deve mudar
-  background-color: lightblue; // Essa cor deve mudar
+  border: ${({ state }) => {
+    switch (state) {
+      case "Selecionado":
+        return "1px solid #0E7D71";
+      case "Indisponível":
+        return "1px solid #F7C52B";
+      case "Disponível":
+        return "1px solid #808F9D";
+    }
+  }};
+
+  background-color: ${({ state }) => {
+    switch (state) {
+      case "Selecionado":
+        return "#1AAE9E";
+      case "Indisponível":
+        return "#FBE192";
+      case "Disponível":
+        return "#C3CFD9";
+    }
+  }};
+
   height: 25px;
   width: 25px;
   border-radius: 25px;
@@ -110,8 +148,13 @@ const CaptionItem = styled.div`
   font-size: 12px;
 `;
 const SeatItem = styled.div`
-  border: 1px solid blue; // Essa cor deve mudar
-  background-color: lightblue; // Essa cor deve mudar
+  border: ${({ isAvailable }) => {
+    return isAvailable ? "1px solid #808F9D" : "1px solid #F7C52B";
+  }};
+  background-color: ${({ isAvailable }) => {
+    return isAvailable ? "#C3CFD9" : "#FBE192";
+  }};
+
   height: 25px;
   width: 25px;
   border-radius: 25px;

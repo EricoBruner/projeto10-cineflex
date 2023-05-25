@@ -33,3 +33,19 @@ export const getMovieSessions = (id) => {
       return error;
     });
 };
+
+export const getMovieSessionSeats = (id) => {
+  return axios
+    .get(`${BASE_URL}/showtimes/${id}/seats`)
+
+    .then((response) => {
+      const apiMovieSessionSeats = response.data.seats;
+      const movie = response.data;
+      return [apiMovieSessionSeats, movie];
+    })
+
+    .catch((error) => {
+      console.log("Error fetching movies:", error);
+      return error;
+    });
+};

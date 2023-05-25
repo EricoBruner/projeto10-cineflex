@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { getMovieSessions } from "../../services/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function SessionsPage() {
   const { idFilme } = useParams();
-
   let [sessions, setSessions] = useState([]);
   let [movie, setMovie] = useState({});
 
@@ -25,7 +24,9 @@ export default function SessionsPage() {
             {session.weekday} - {session.date}
             <ButtonsContainer>
               {session.showtimes.map((showtime) => (
-                <button key={showtime.id}>{showtime.name}</button>
+                <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
+                  <button>{showtime.name}</button>
+                </Link>
               ))}
             </ButtonsContainer>
           </SessionContainer>
