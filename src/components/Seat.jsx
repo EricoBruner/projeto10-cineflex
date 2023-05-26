@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Seat({ seat, addSeatReserve }) {
+export default function Seat({ seat, addSeatReserve, removeSeatReserve }) {
   let [isSelected, setIsSelected] = useState(false);
 
   const reserveSeat = (id) => {
@@ -9,12 +9,18 @@ export default function Seat({ seat, addSeatReserve }) {
     addSeatReserve(id);
   };
 
+  const undoReserveSeat = (id) => {
+    setIsSelected(false);
+    removeSeatReserve(id);
+  };
+
   return (
     <SeatItem
       isAvailable={seat.isAvailable}
       isSelected={isSelected}
       onClick={() => {
-        seat.isAvailable && reserveSeat(seat.id);
+        seat.isAvailable &&
+          (isSelected ? undoReserveSeat(seat.id) : reserveSeat(seat.id));
       }}
     >
       {seat.name}

@@ -24,7 +24,7 @@ export default function SeatsPage() {
 
   const funcao = (e) => {
     e.preventDefault();
-    navigate("/");
+    console.log(selectedSeats);
   };
 
   const addSeatReserve = (id) => {
@@ -33,12 +33,24 @@ export default function SeatsPage() {
     setSelectedSeats(newSelectedSeats);
   };
 
+  const removeSeatReserve = (id) => {
+    const indexSeatReserve = selectedSeats.findIndex((seat) => seat === id);
+    let newSelectedSeats = [...selectedSeats];
+    newSelectedSeats.splice(indexSeatReserve, 1);
+    setSelectedSeats(newSelectedSeats);
+  };
+
   return (
     <PageContainer>
       Selecione o(s) assento(s)
       <SeatsContainer>
         {seats.map((seat) => (
-          <Seat key={seat.id} seat={seat} addSeatReserve={addSeatReserve} />
+          <Seat
+            key={seat.id}
+            seat={seat}
+            addSeatReserve={addSeatReserve}
+            removeSeatReserve={removeSeatReserve}
+          />
         ))}
       </SeatsContainer>
       <CaptionContainer>
