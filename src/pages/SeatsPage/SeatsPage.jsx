@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import Seat from "../../components/Seat";
-
 import { getMovieSessionSeats } from "../../services/api";
+import Seat from "../../components/Seat";
 
 export default function SeatsPage() {
   const { idSessao } = useParams();
@@ -12,13 +11,12 @@ export default function SeatsPage() {
   let [movie, setMovie] = useState(null);
   let [nameUser, setNameUser] = useState("");
   let [cpfUser, setCpfUser] = useState("");
+  let [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
     getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
       setSeats(apiMovieSessionSeats);
       setMovie(apiMovie);
-      console.log(apiMovieSessionSeats);
-      console.log(apiMovie);
     });
   }, []);
 
@@ -29,12 +27,18 @@ export default function SeatsPage() {
     navigate("/");
   };
 
+  const addSeatReserve = (id) => {
+    let newSelectedSeats = [...selectedSeats];
+    newSelectedSeats.push(id);
+    setSelectedSeats(newSelectedSeats);
+  };
+
   return (
     <PageContainer>
       Selecione o(s) assento(s)
       <SeatsContainer>
         {seats.map((seat) => (
-          <Seat seat={seat} />
+          <Seat key={seat.id} seat={seat} addSeatReserve={addSeatReserve} />
         ))}
       </SeatsContainer>
       <CaptionContainer>

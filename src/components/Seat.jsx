@@ -1,14 +1,20 @@
+import { useState } from "react";
 import styled from "styled-components";
 
-export default function Seat({ seat }) {
-  const reserveSeat = (id) => {};
+export default function Seat({ seat, addSeatReserve }) {
+  let [isSelected, setIsSelected] = useState(false);
+
+  const reserveSeat = (id) => {
+    setIsSelected(true);
+    addSeatReserve(id);
+  };
 
   return (
     <SeatItem
-      key={seat.id}
       isAvailable={seat.isAvailable}
+      isSelected={isSelected}
       onClick={() => {
-        reserveSeat();
+        seat.isAvailable && reserveSeat(seat.id);
       }}
     >
       {seat.name}
@@ -17,11 +23,22 @@ export default function Seat({ seat }) {
 }
 
 const SeatItem = styled.div`
-  border: ${({ isAvailable }) => {
+  border: ${({ isAvailable, isSelected }) => {
+    if (isSelected) {
+      return "1px solid #0E7D71";
+    }
     return isAvailable ? "1px solid #808F9D" : "1px solid #F7C52B";
   }};
-  background-color: ${({ isAvailable }) => {
+
+  background-color: ${({ isAvailable, isSelected }) => {
+    if (isSelected) {
+      return "#1AAE9E";
+    }
     return isAvailable ? "#C3CFD9" : "#FBE192";
+  }};
+
+  cursor: ${({ isAvailable }) => {
+    return isAvailable ? "pointer" : "not-allowed";
   }};
 
   height: 25px;
