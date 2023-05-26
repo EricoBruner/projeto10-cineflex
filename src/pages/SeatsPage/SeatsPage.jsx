@@ -7,6 +7,8 @@ import Seat from "../../components/Seat";
 
 export default function SeatsPage() {
   const { idSessao } = useParams();
+  const navigate = useNavigate();
+
   let [seats, setSeats] = useState([]);
   let [movie, setMovie] = useState(null);
   let [nameUser, setNameUser] = useState("");
@@ -20,11 +22,8 @@ export default function SeatsPage() {
     });
   }, []);
 
-  const navigate = useNavigate();
-
   const funcao = (e) => {
     e.preventDefault();
-    console.log(selectedSeats);
   };
 
   const addSeatReserve = (id) => {

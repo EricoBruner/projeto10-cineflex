@@ -14,13 +14,20 @@ export default function Seat({ seat, addSeatReserve, removeSeatReserve }) {
     removeSeatReserve(id);
   };
 
+  const alertReservedSeat = () => {
+    alert("Esse assento não está disponível");
+  };
+
   return (
     <SeatItem
       isAvailable={seat.isAvailable}
       isSelected={isSelected}
       onClick={() => {
-        seat.isAvailable &&
-          (isSelected ? undoReserveSeat(seat.id) : reserveSeat(seat.id));
+        seat.isAvailable
+          ? isSelected
+            ? undoReserveSeat(seat.id)
+            : reserveSeat(seat.id)
+          : alertReservedSeat();
       }}
     >
       {seat.name}
