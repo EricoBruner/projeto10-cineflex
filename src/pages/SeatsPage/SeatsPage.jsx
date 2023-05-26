@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+
+import Seat from "../../components/Seat";
 
 import { getMovieSessionSeats } from "../../services/api";
 
@@ -8,6 +10,8 @@ export default function SeatsPage() {
   const { idSessao } = useParams();
   let [seats, setSeats] = useState([]);
   let [movie, setMovie] = useState(null);
+  let [nameUser, setNameUser] = useState("");
+  let [cpfUser, setCpfUser] = useState("");
 
   useEffect(() => {
     getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
@@ -18,14 +22,19 @@ export default function SeatsPage() {
     });
   }, []);
 
+  const navigate = useNavigate();
+
+  const funcao = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
+
   return (
     <PageContainer>
       Selecione o(s) assento(s)
       <SeatsContainer>
         {seats.map((seat) => (
-          <SeatItem key={seat.id} isAvailable={seat.isAvailable}>
-            {seat.name}
-          </SeatItem>
+          <Seat seat={seat} />
         ))}
       </SeatsContainer>
       <CaptionContainer>
@@ -42,12 +51,22 @@ export default function SeatsPage() {
           Indisponível
         </CaptionItem>
       </CaptionContainer>
-      <FormContainer>
-        Nome do Comprador:
-        <input placeholder="Digite seu nome..." />
-        CPF do Comprador:
-        <input placeholder="Digite seu CPF..." />
-        <button>Reservar Assento(s)</button>
+      <FormContainer onSubmit={funcao}>
+        <label htmlFor="nameUser">Nome do Comprador:</label>
+        <input
+          id="nameUser"
+          placeholder="Digite seu nome..."
+          onChange={(e) => setNameUser(e.target.value)}
+          required
+        />
+        <label htmlFor="cpfUser">CPF do Comprador:</label>
+        <input
+          id="cpfUser"
+          placeholder="Digite seu CPF..."
+          onChange={(e) => setCpfUser(e.target.value)}
+          required
+        />
+        <button type="submit">Reservar Assento(s)</button>
       </FormContainer>
       <FooterContainer>
         {movie && (
@@ -89,7 +108,7 @@ const SeatsContainer = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   width: calc(100vw - 40px);
   display: flex;
   flex-direction: column;
@@ -147,24 +166,7 @@ const CaptionItem = styled.div`
   align-items: center;
   font-size: 12px;
 `;
-const SeatItem = styled.div`
-  border: ${({ isAvailable }) => {
-    return isAvailable ? "1px solid #808F9D" : "1px solid #F7C52B";
-  }};
-  background-color: ${({ isAvailable }) => {
-    return isAvailable ? "#C3CFD9" : "#FBE192";
-  }};
 
-  height: 25px;
-  width: 25px;
-  border-radius: 25px;
-  font-family: "Roboto";
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 3px;
-`;
 const FooterContainer = styled.div`
   width: 100%;
   height: 120px;
