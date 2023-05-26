@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { getMovieSessionSeats } from "../../services/api";
+import { getMovieSessionSeats, reserveSeats } from "../../services/api";
 import Seat from "../../components/Seat";
 
-export default function SeatsPage() {
+export default function SeatsPage({ setDataSuccess }) {
   const { idSessao } = useParams();
   const navigate = useNavigate();
 
@@ -22,8 +22,22 @@ export default function SeatsPage() {
     });
   }, []);
 
-  const funcao = (e) => {
+  const formReserveSeats = (e) => {
     e.preventDefault();
+
+    const reserve = {
+      ids: selectedSeats,
+      name: nameUser,
+      cpf: cpfUser,
+    };
+
+    reserveSeats(reserve).then(() => {
+      setDataSuccess({
+        dataMovie: movie,
+        dataUser: reserve,
+      });
+      navigate("/sucesso");
+    });
   };
 
   const addSeatReserve = (id) => {
@@ -66,7 +80,7 @@ export default function SeatsPage() {
           Indisponível
         </CaptionItem>
       </CaptionContainer>
-      <FormContainer onSubmit={funcao}>
+      <FormContainer onSubmit={formReserveSeats}>
         <label htmlFor="nameUser">Nome do Comprador:</label>
         <input
           id="nameUser"

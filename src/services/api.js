@@ -29,7 +29,7 @@ export const getMovieSessions = (id) => {
     })
 
     .catch((error) => {
-      console.log("Error fetching movies:", error);
+      console.log("Error fetching sessions:", error);
       return error;
     });
 };
@@ -45,7 +45,23 @@ export const getMovieSessionSeats = (id) => {
     })
 
     .catch((error) => {
-      console.log("Error fetching movies:", error);
+      console.log("Error fetching sessions seats:", error);
+      return error;
+    });
+};
+
+export const reserveSeats = (data) => {
+  return axios
+    .post(`${BASE_URL}/seats/book-many`, data)
+
+    .then((response) => {
+      const apiMovieSessionSeats = response.data.seats;
+      const movie = response.data;
+      return [apiMovieSessionSeats, movie];
+    })
+
+    .catch((error) => {
+      console.log("Error sending data:", error);
       return error;
     });
 };
