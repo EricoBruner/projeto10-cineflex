@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { getMovieSessionSeats, reserveSeats } from "../../services/api";
 import Seat from "../../components/Seat";
 import Footer from "../../components/Footer";
+import Caption from "../../components/Caption";
 
 export default function SeatsPage({ setDataSuccess }) {
   const { idSessao } = useParams();
@@ -84,20 +85,7 @@ export default function SeatsPage({ setDataSuccess }) {
           />
         ))}
       </SeatsContainer>
-      <CaptionContainer>
-        <CaptionItem>
-          <CaptionCircle state={"Selecionado"} />
-          Selecionado
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle state={"Disponível"} />
-          Disponível
-        </CaptionItem>
-        <CaptionItem>
-          <CaptionCircle state={"Indisponível"} />
-          Indisponível
-        </CaptionItem>
-      </CaptionContainer>
+      <Caption />
       <FormContainer onSubmit={formReserveSeats}>
         <label htmlFor="nameUser">Nome do Comprador:</label>
         <input
@@ -161,88 +149,5 @@ const FormContainer = styled.form`
   }
   input {
     width: calc(100vw - 60px);
-  }
-`;
-const CaptionContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 300px;
-  justify-content: space-between;
-  margin: 20px;
-`;
-const CaptionCircle = styled.div`
-  border: ${({ state }) => {
-    switch (state) {
-      case "Selecionado":
-        return "1px solid #0E7D71";
-      case "Indisponível":
-        return "1px solid #F7C52B";
-      case "Disponível":
-        return "1px solid #808F9D";
-    }
-  }};
-
-  background-color: ${({ state }) => {
-    switch (state) {
-      case "Selecionado":
-        return "#1AAE9E";
-      case "Indisponível":
-        return "#FBE192";
-      case "Disponível":
-        return "#C3CFD9";
-    }
-  }};
-
-  height: 25px;
-  width: 25px;
-  border-radius: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 3px;
-`;
-const CaptionItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-`;
-
-const FooterContainer = styled.div`
-  width: 100%;
-  height: 120px;
-  background-color: #c3cfd9;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 20px;
-  position: fixed;
-  bottom: 0;
-
-  div:nth-child(1) {
-    box-shadow: 0px 2px 4px 2px #0000001a;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    margin: 12px;
-    img {
-      width: 50px;
-      height: 70px;
-      padding: 8px;
-    }
-  }
-
-  div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    p {
-      text-align: left;
-      &:nth-child(2) {
-        margin-top: 10px;
-      }
-    }
   }
 `;
