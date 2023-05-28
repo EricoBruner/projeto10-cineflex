@@ -1,10 +1,14 @@
-import styled from "styled-components";
-import { getMovieSessions } from "../../services/api";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+
+import Session from "../../components/Session";
+
+import { getMovieSessions } from "../../services/api";
 
 export default function SessionsPage() {
   const { idFilme } = useParams();
+
   let [sessions, setSessions] = useState([]);
   let [movie, setMovie] = useState({});
 
@@ -20,16 +24,7 @@ export default function SessionsPage() {
       Selecione o horário
       <div>
         {sessions.map((session) => (
-          <SessionContainer key={session.id}>
-            {session.weekday} - {session.date}
-            <ButtonsContainer>
-              {session.showtimes.map((showtime) => (
-                <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
-                  <button>{showtime.name}</button>
-                </Link>
-              ))}
-            </ButtonsContainer>
-          </SessionContainer>
+          <Session key={session.id} session={session} />
         ))}
       </div>
       <FooterContainer>
@@ -58,26 +53,7 @@ const PageContainer = styled.div`
     margin-top: 20px;
   }
 `;
-const SessionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: "Roboto";
-  font-size: 20px;
-  color: #293845;
-  padding: 0 20px;
-`;
-const ButtonsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 20px 0;
-  button {
-    margin-right: 20px;
-  }
-  a {
-    text-decoration: none;
-  }
-`;
+
 const FooterContainer = styled.div`
   width: 100%;
   height: 120px;

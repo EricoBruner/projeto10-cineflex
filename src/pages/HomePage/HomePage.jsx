@@ -39,6 +39,7 @@ const PageContainer = styled.div`
   margin-top: 30px;
   padding-top: 70px;
 `;
+
 const ListContainer = styled.div`
   width: 330px;
   display: flex;
