@@ -23,7 +23,6 @@ export default function SeatsPage({ setDataSuccess }) {
     getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
       setSeats(apiMovieSessionSeats);
       setMovie(apiMovie);
-      console.log(apiMovie);
     });
   }, []);
 

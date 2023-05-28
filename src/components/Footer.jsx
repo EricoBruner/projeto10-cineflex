@@ -8,7 +8,7 @@ export default function Footer({
   hour,
 }) {
   return (
-    <FooterContainer>
+    <FooterContainer data-test="footer">
       <div>
         <img src={posterURL} alt={title} />
       </div>

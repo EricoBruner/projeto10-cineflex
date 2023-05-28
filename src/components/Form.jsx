@@ -5,6 +5,7 @@ export default function Form({ formReserveSeats, setNameUser, setCpfUser }) {
     <FormContainer onSubmit={formReserveSeats}>
       <label htmlFor="nameUser">Nome do Comprador:</label>
       <input
+        data-test="client-name"
         id="nameUser"
         placeholder="Digite seu nome..."
         onChange={(e) => setNameUser(e.target.value)}
@@ -12,12 +13,15 @@ export default function Form({ formReserveSeats, setNameUser, setCpfUser }) {
       />
       <label htmlFor="cpfUser">CPF do Comprador:</label>
       <input
+        data-test="client-cpf"
         id="cpfUser"
         placeholder="Digite seu CPF..."
         onChange={(e) => setCpfUser(e.target.value)}
         required
       />
-      <button type="submit">Reservar Assento(s)</button>
+      <button data-test="book-seat-btn" type="submit">
+        Reservar Assento(s)
+      </button>
     </FormContainer>
   );
 }

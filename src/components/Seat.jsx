@@ -20,6 +20,7 @@ export default function Seat({ seat, addSeatReserve, removeSeatReserve }) {
 
   return (
     <SeatItem
+      data-test="seat"
       isAvailable={seat.isAvailable}
       isSelected={isSelected}
       onClick={() => {

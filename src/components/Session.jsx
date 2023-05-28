@@ -3,7 +3,7 @@ import Showtime from "./Showtime";
 
 export default function Session({ session }) {
   return (
-    <SessionContainer>
+    <SessionContainer data-test="movie-day">
       {session.weekday} - {session.date}
       <ButtonsContainer>
         {session.showtimes.map((showtime) => (
