@@ -94,7 +94,6 @@ export default function SeatsPage({ setDataSuccess }) {
       {movie && (
         <Footer
           title={movie.movie.title}
-          overview={movie.movie.overview}
           posterURL={movie.movie.posterURL}
           dayWeekday={movie.day.weekday}
           hour={movie.name}

@@ -1,19 +1,13 @@
 import styled from "styled-components";
 
-export default function Footer({
-  posterURL,
-  title,
-  overview,
-  dayWeekday,
-  hour,
-}) {
+export default function Footer({ posterURL, title, dayWeekday, hour }) {
   return (
     <FooterContainer data-test="footer">
       <div>
         <img src={posterURL} alt={title} />
       </div>
       <div>
-        <p>{overview}</p>
+        <p>{title}</p>
         {dayWeekday && (
           <p>
             {dayWeekday} - {hour}

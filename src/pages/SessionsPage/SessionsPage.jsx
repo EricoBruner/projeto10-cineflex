@@ -28,11 +28,7 @@ export default function SessionsPage() {
           <Session key={session.id} session={session} />
         ))}
       </div>
-      <Footer
-        title={movie.title}
-        overview={movie.overview}
-        posterURL={movie.posterURL}
-      />
+      <Footer title={movie.title} posterURL={movie.posterURL} />
     </PageContainer>
   );
 }
