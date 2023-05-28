@@ -22,7 +22,7 @@ export default function SuccessPage({ dataSuccess }) {
         <strong>
           <p>Ingressos</p>
         </strong>
-        {dataSuccess.dataUser.ids.map((seat) => (
+        {dataSuccess.dataSeatsName.map((seat) => (
           <p>Assento {seat}</p>
         ))}
       </TextContainer>

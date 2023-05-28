@@ -14,6 +14,7 @@ export default function SeatsPage({ setDataSuccess }) {
   let [nameUser, setNameUser] = useState("");
   let [cpfUser, setCpfUser] = useState("");
   let [selectedSeats, setSelectedSeats] = useState([]);
+  let [numberSelectedSeats, setNumberSelectedSeats] = useState([]);
 
   useEffect(() => {
     getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
@@ -35,22 +36,37 @@ export default function SeatsPage({ setDataSuccess }) {
       setDataSuccess({
         dataMovie: movie,
         dataUser: reserve,
+        dataSeatsName: numberSelectedSeats,
       });
       navigate("/sucesso");
     });
   };
 
-  const addSeatReserve = (id) => {
+  const addSeatReserve = (id, name) => {
     let newSelectedSeats = [...selectedSeats];
+    let newNumberSelectedSeats = [...numberSelectedSeats];
+
     newSelectedSeats.push(id);
+    newNumberSelectedSeats.push(name);
+
     setSelectedSeats(newSelectedSeats);
+    setNumberSelectedSeats(newNumberSelectedSeats);
   };
 
-  const removeSeatReserve = (id) => {
+  const removeSeatReserve = (id, name) => {
     const indexSeatReserve = selectedSeats.findIndex((seat) => seat === id);
+    const indexNumberSeatReserve = numberSelectedSeats.findIndex(
+      (seatName) => seatName === name
+    );
+
     let newSelectedSeats = [...selectedSeats];
+    let newNumberSelectedSeats = [...numberSelectedSeats];
+
     newSelectedSeats.splice(indexSeatReserve, 1);
+    newNumberSelectedSeats.splice(indexNumberSeatReserve, 1);
+
     setSelectedSeats(newSelectedSeats);
+    setNumberSelectedSeats(newNumberSelectedSeats);
   };
 
   return (

@@ -6,12 +6,12 @@ export default function Seat({ seat, addSeatReserve, removeSeatReserve }) {
 
   const reserveSeat = (id) => {
     setIsSelected(true);
-    addSeatReserve(id);
+    addSeatReserve(id, seat.name);
   };
 
   const undoReserveSeat = (id) => {
     setIsSelected(false);
-    removeSeatReserve(id);
+    removeSeatReserve(id, seat.name);
   };
 
   const alertReservedSeat = () => {
