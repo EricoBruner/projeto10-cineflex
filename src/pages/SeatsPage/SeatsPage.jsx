@@ -6,6 +6,7 @@ import { getMovieSessionSeats, reserveSeats } from "../../services/api";
 import Seat from "../../components/Seat";
 import Footer from "../../components/Footer";
 import Caption from "../../components/Caption";
+import Form from "../../components/Form";
 
 export default function SeatsPage({ setDataSuccess }) {
   const { idSessao } = useParams();
@@ -86,23 +87,11 @@ export default function SeatsPage({ setDataSuccess }) {
         ))}
       </SeatsContainer>
       <Caption />
-      <FormContainer onSubmit={formReserveSeats}>
-        <label htmlFor="nameUser">Nome do Comprador:</label>
-        <input
-          id="nameUser"
-          placeholder="Digite seu nome..."
-          onChange={(e) => setNameUser(e.target.value)}
-          required
-        />
-        <label htmlFor="cpfUser">CPF do Comprador:</label>
-        <input
-          id="cpfUser"
-          placeholder="Digite seu CPF..."
-          onChange={(e) => setCpfUser(e.target.value)}
-          required
-        />
-        <button type="submit">Reservar Assento(s)</button>
-      </FormContainer>
+      <Form
+        formReserveSeats={formReserveSeats}
+        setCpfUser={setCpfUser}
+        setNameUser={setNameUser}
+      />
       {movie && (
         <Footer
           title={movie.movie.title}
@@ -136,18 +125,4 @@ const SeatsContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-`;
-const FormContainer = styled.form`
-  width: calc(100vw - 40px);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 20px 0;
-  font-size: 18px;
-  button {
-    align-self: center;
-  }
-  input {
-    width: calc(100vw - 60px);
-  }
 `;
