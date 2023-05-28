@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { getMovieSessionSeats, reserveSeats } from "../../services/api";
 import Seat from "../../components/Seat";
+import Footer from "../../components/Footer";
 
 export default function SeatsPage({ setDataSuccess }) {
   const { idSessao } = useParams();
@@ -20,6 +21,7 @@ export default function SeatsPage({ setDataSuccess }) {
     getMovieSessionSeats(idSessao).then(([apiMovieSessionSeats, apiMovie]) => {
       setSeats(apiMovieSessionSeats);
       setMovie(apiMovie);
+      console.log(apiMovie);
     });
   }, []);
 
@@ -113,21 +115,15 @@ export default function SeatsPage({ setDataSuccess }) {
         />
         <button type="submit">Reservar Assento(s)</button>
       </FormContainer>
-      <FooterContainer>
-        {movie && (
-          <>
-            <div>
-              <img src={movie.movie.posterURL} alt="poster" />
-            </div>
-            <div>
-              <p>{movie.movie.overview}</p>
-              <p>
-                {movie.day.weekday} - {movie.name}
-              </p>
-            </div>
-          </>
-        )}
-      </FooterContainer>
+      {movie && (
+        <Footer
+          title={movie.movie.title}
+          overview={movie.movie.overview}
+          posterURL={movie.movie.posterURL}
+          dayWeekday={movie.day.weekday}
+          hour={movie.name}
+        />
+      )}
     </PageContainer>
   );
 }
